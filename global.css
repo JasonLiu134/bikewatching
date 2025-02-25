@@ -1,0 +1,33 @@
+body {
+    font: 100%/1.5 system-ui, sans-serif;
+    display: flex;
+    flex-flow: column;
+    max-width: 80em;
+    min-height: 100vh;
+    box-sizing: border-box;
+    margin: auto;
+    padding: 1em;
+}
+
+header {
+    display: flex;
+    gap: 1em;
+    align-items: baseline;
+    margin-left: auto;
+}
+
+time {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}
+
+em {
+    color: dimgray;
+    font-style: italic;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: flex-start;
+}

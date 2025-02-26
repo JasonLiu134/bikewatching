@@ -34,7 +34,7 @@ map.on('load', async () => {
 
     map.addSource('cambridge_route', {
         type: 'geojson',
-        data: 'https://cambridgeopendata-cambridge.opendata.arcgis.com/datasets/cambridge::existing-bike-network-2022.geojson'
+        data: 'https://raw.githubusercontent.com/cambridgegis/cambridgegis_data/main/Recreation/Bike_Facilities/RECREATION_BikeFacilities.geojson'
     });
 
     map.addLayer({
@@ -74,7 +74,12 @@ map.on('load', async () => {
             .attr('stroke', 'white')    // Circle border color
             .attr('stroke-width', 1)    // Circle border thickness
             .attr('opacity', 0.8)      // Circle opacity
-            .style("--departure-ratio", d => stationFlow(d.departures / d.totalTraffic));
+            .style("--departure-ratio", d => stationFlow(d.departures / d.totalTraffic))
+            .each(function(d) {
+                if (stationFlow(d.departures / d.totalTraffic) === undefined) {
+                    console.log(`Station: ${d.short_name}, Departures: ${d.departures}, Total Traffic: ${d.totalTraffic}`);
+                }
+             });
 
         // Function to update circle positions when the map moves/zooms
         function updatePositions() {
@@ -138,7 +143,12 @@ map.on('load', async () => {
                 .data(filteredStations, (d) => d.short_name)  // Ensure D3 tracks elements correctly
                 .join('circle') // Ensure the data is bound correctly
                 .attr('r', (d) => radiusScale(d.totalTraffic)) // Update circle sizes
-                .style('--departure-ratio', (d) => stationFlow(d.departures / d.totalTraffic),);
+                .style('--departure-ratio', (d) => stationFlow(d.departures / d.totalTraffic),)
+                .each(function(d) {
+                    if (stationFlow(d.departures / d.totalTraffic) === undefined) {
+                        d3.select(this).style("--departure-ratio", 0.5);
+                    }
+                 });
         }
 
     } catch (error) {
